@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>รายละเอียดสาขาวิชา | วิทยาลัยอาชีวศึกษาแม่สาย</title>
+  <meta name="description" content="รายละเอียดหลักสูตรและสาขาวิชาที่เปิดสอน วิทยาลัยอาชีวศึกษาแม่สาย">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" type="image/png" href="img/logo.png">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">ข้ามไปเนื้อหาหลัก</a>
+  <div id="site-header"></div>
+
+  <main id="main-content" class="container">
+    <div class="placeholder-page-wrap">
+      
+      <div id="program-content">
+        <!-- เนื้อหาสาขาวิชาจะถูกนำมาแสดงผลจาก data/programs.js ผ่านสคริปต์ด้านล่าง -->
+        <div class="placeholder-badge">หลักสูตรวิชาชีพ</div>
+        <h1 id="prog-title" class="placeholder-title">กำลังโหลดข้อมูลสาขาวิชา...</h1>
+        <div id="prog-levels" class="program-detail-sub" style="font-size: 1.1rem; margin-bottom: 1.5rem;"></div>
+
+        <div class="placeholder-notice">
+          <p><strong>สถานะหน้านี้:</strong> แสดงผลโครงสร้างข้อมูลสาขาวิชาตามที่ตั้งค่าไว้ในไฟล์ <code>data/programs.js</code></p>
+          <p>คุณครูสามารถเข้าไปเพิ่มเติมรายละเอียดเนื้อหารายวิชา แผนการเรียน และรูปภาพได้ที่ไฟล์ดังกล่าวครับ</p>
+        </div>
+
+        <div class="program-detail-card">
+          <div class="program-detail-header">
+            <h2 id="prog-card-name" class="program-detail-title">ชื่อสาขาวิชา</h2>
+            <div id="prog-card-en" style="color: var(--color-text-muted); font-size: 0.9375rem;"></div>
+          </div>
+
+          <div class="program-detail-section">
+            <h3 class="program-detail-section-title">ภาพรวมสาขาวิชา</h3>
+            <p id="prog-summary" style="color: var(--color-text-muted); line-height: 1.7;"></p>
+          </div>
+
+          <div class="program-detail-section">
+            <h3 class="program-detail-section-title">จุดเน้นและการจัดการเรียนรู้</h3>
+            <p id="prog-detail" style="color: var(--color-text-muted); line-height: 1.7;"></p>
+          </div>
+
+          <div class="program-detail-section">
+            <h3 class="program-detail-section-title">จุดเด่นของหลักสูตร</h3>
+            <ul id="prog-highlights" class="program-detail-list"></ul>
+          </div>
+
+          <div class="program-detail-section">
+            <h3 class="program-detail-section-title">แนวทางการประกอบอาชีพ</h3>
+            <p id="prog-careers" style="color: var(--color-text); font-weight: 500;"></p>
+          </div>
+
+          <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--color-border-subtle); display: flex; flex-wrap: wrap; gap: 0.85rem;">
+            <a id="prog-apply-btn" href="http://mvc.sisacloud.com/index.php" class="btn btn-primary" target="_blank" rel="noopener noreferrer">สมัครเรียนสาขานี้ออนไลน์</a>
+            <a href="programs.html" class="btn btn-secondary">ดูสาขาวิชาอื่นทั้งหมด</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <!-- โหลดข้อมูล -->
+  <script src="data/site.js"></script>
+  <script src="data/programs.js"></script>
+  <script src="data/links.js"></script>
+  <script src="js/layout.js"></script>
+
+  <script>
+    (function() {
+      // ดึงค่า id จาก Query String: ?id=...
+      var params = new URLSearchParams(window.location.search);
+      var progId = params.get('id');
+      var programs = window.MVS_PROGRAMS || [];
+
+      // ค้นหาสาขาวิชาที่ตรงกัน
+      var currentProg = null;
+      if (progId) {
+        for (var i = 0; i < programs.length; i++) {
+          if (programs[i].id === progId) {
+            currentProg = programs[i];
+            break;
+          }
+        }
+      }
+
+      // ถ้าไม่ระบุ id ให้ใช้สาขาแรกเป็นค่าเริ่มต้น
+      if (!currentProg && programs.length > 0) {
+        currentProg = programs[0];
+      }
+
+      if (currentProg) {
+        document.title = currentProg.name + " (" + currentProg.levels + ") | วิทยาลัยอาชีวศึกษาแม่สาย";
+        
+        var titleEl = document.getElementById('prog-title');
+        if (titleEl) titleEl.textContent = "สาขาวิชา" + currentProg.name;
+
+        var levelsEl = document.getElementById('prog-levels');
+        if (levelsEl) levelsEl.textContent = "ระดับที่เปิดสอน: " + currentProg.levels;
+
+        var cardNameEl = document.getElementById('prog-card-name');
+        if (cardNameEl) cardNameEl.textContent = currentProg.name;
+
+        var cardEnEl = document.getElementById('prog-card-en');
+        if (cardEnEl) cardEnEl.textContent = currentProg.nameEn || '';
+
+        var summaryEl = document.getElementById('prog-summary');
+        if (summaryEl) summaryEl.textContent = currentProg.summary || '';
+
+        var detailEl = document.getElementById('prog-detail');
+        if (detailEl) detailEl.textContent = currentProg.detail || '';
+
+        var careersEl = document.getElementById('prog-careers');
+        if (careersEl) careersEl.textContent = currentProg.careers || '';
+
+        var hlContainer = document.getElementById('prog-highlights');
+        if (hlContainer && Array.isArray(currentProg.highlights)) {
+          hlContainer.textContent = '';
+          currentProg.highlights.forEach(function(item) {
+            var li = document.createElement('li');
+            li.textContent = item;
+            hlContainer.appendChild(li);
+          });
+        }
+
+        var applyBtn = document.getElementById('prog-apply-btn');
+        if (applyBtn && window.MVS_SITE && window.MVS_SITE.applyOnlineUrl) {
+          applyBtn.href = window.MVS_SITE.applyOnlineUrl;
+        }
+      }
+    })();
+  </script>
+</body>
+</html>

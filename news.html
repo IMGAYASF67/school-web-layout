@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ข่าวสารและประกาศ | วิทยาลัยอาชีวศึกษาแม่สาย</title>
+  <meta name="description" content="ข่าวสาร ประกาศ กิจกรรม และความเคลื่อนไหว วิทยาลัยอาชีวศึกษาแม่สาย">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" type="image/png" href="img/logo.png">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">ข้ามไปเนื้อหาหลัก</a>
+  <div id="site-header"></div>
+
+  <main id="main-content" class="container">
+    <div class="placeholder-page-wrap" style="max-width: 100%;">
+      <div class="placeholder-badge">ประชาสัมพันธ์</div>
+      <h1 class="placeholder-title">ข่าวสารและประกาศทั้งหมด</h1>
+      <p style="font-size: 1.05rem; color: var(--color-text-muted); margin-bottom: 2rem;">
+        ติดตามความเคลื่อนไหว กิจกรรมวิทยาลัย และประกาศทางการ
+      </p>
+
+      <div class="placeholder-notice">
+        <p><strong>หน้านี้กำลังจัดทำ</strong></p>
+        <p>คุณครูสามารถเพิ่ม ลบ หรือแก้ไขข่าวสารทั้งหมดได้ที่ไฟล์ <code>data/news.js</code> ข่าวใหม่จะปรากฏที่หน้านี้และหน้าแรกโดยอัตโนมัติครับ</p>
+      </div>
+
+      <div id="all-news-list" class="news-grid" style="margin-top: 2rem;">
+        <!-- รายการข่าวสารทั้งหมดจาก data/news.js -->
+      </div>
+
+      <div style="margin-top: 2.5rem;">
+        <a href="index.html" class="btn btn-secondary">กลับหน้าแรก</a>
+      </div>
+    </div>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <!-- โหลดข้อมูล -->
+  <script src="data/site.js"></script>
+  <script src="data/news.js"></script>
+  <script src="data/links.js"></script>
+  <script src="js/layout.js"></script>
+
+  <script>
+    (function() {
+      var container = document.getElementById('all-news-list');
+      var news = window.MVS_NEWS || [];
+
+      if (container && Array.isArray(news)) {
+        container.textContent = '';
+        news.forEach(function(item) {
+          var card = document.createElement('article');
+          card.className = 'news-card';
+
+          var meta = document.createElement('div');
+          meta.className = 'news-meta';
+          var cat = document.createElement('span');
+          cat.className = 'news-category';
+          cat.textContent = item.category;
+          var date = document.createElement('span');
+          date.textContent = item.dateDisplay || item.date;
+          meta.appendChild(cat);
+          meta.appendChild(date);
+
+          var title = document.createElement('h2');
+          title.className = 'news-card-title';
+          title.textContent = item.title;
+
+          var summary = document.createElement('p');
+          summary.className = 'news-card-summary';
+          summary.textContent = item.summary;
+
+          card.appendChild(meta);
+          card.appendChild(title);
+          card.appendChild(summary);
+
+          container.appendChild(card);
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

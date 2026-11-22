@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>สาขาวิชาที่เปิดสอน | วิทยาลัยอาชีวศึกษาแม่สาย</title>
+  <meta name="description" content="หลักสูตรและสาขาวิชาที่เปิดสอนระดับ ปวช. และ ปวส. วิทยาลัยอาชีวศึกษาแม่สาย">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" type="image/png" href="img/logo.png">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">ข้ามไปเนื้อหาหลัก</a>
+  <div id="site-header"></div>
+
+  <main id="main-content" class="container">
+    <div class="placeholder-page-wrap" style="max-width: 100%;">
+      <div class="placeholder-badge">หลักสูตรการศึกษา</div>
+      <h1 class="placeholder-title">สาขาวิชาที่เปิดสอน</h1>
+      <p style="font-size: 1.05rem; color: var(--color-text-muted); margin-bottom: 2rem; max-width: 720px;">
+        วิทยาลัยอาชีวศึกษาแม่สาย เปิดสอนระดับประกาศนียบัตรวิชาชีพ (ปวช.) และระดับประกาศนียบัตรวิชาชีพชั้นสูง (ปวส.) รวมทั้งสิ้น 5 สาขาวิชา
+      </p>
+
+      <div class="placeholder-notice">
+        <p><strong>หน้านี้กำลังจัดทำเนื้อหาฉบับสมบูรณ์</strong></p>
+        <p>คุณครูสามารถแก้ไขหรือเพิ่มข้อมูลสาขาวิชาได้ที่ไฟล์ <code>data/programs.js</code> หรือคลิกดูตัวอย่างรายละเอียดแต่ละสาขาด้านล่างได้ทันทีครับ</p>
+      </div>
+
+      <div id="programs-container" class="programs-list" style="margin-top: 2rem;">
+        <!-- รายการ 5 สาขาวิชาจะถูกแสดงผลด้วย JavaScript -->
+      </div>
+
+      <div style="margin-top: 3rem; background-color: var(--color-surface); border: 1px solid var(--color-border); padding: 2rem; border-radius: var(--radius-sm);">
+        <h2 style="font-family: var(--font-heading); font-size: 1.25rem; color: var(--color-primary-dark); margin-bottom: 0.75rem;">
+          สนใจสมัครเรียนหรือต้องการสอบถามข้อมูลเพิ่มเติม?
+        </h2>
+        <p style="color: var(--color-text-muted); margin-bottom: 1.25rem;">
+          คุณสามารถสมัครเรียนออนไลน์ได้ทันทีผ่านระบบ หรือติดต่อสอบถามรายละเอียดแผนการเรียนกับทางฝ่ายแนะแนววิทยาลัย
+        </p>
+        <div style="display: flex; flex-wrap: wrap; gap: 0.75rem;">
+          <a href="http://mvc.sisacloud.com/index.php" target="_blank" rel="noopener noreferrer" class="btn btn-primary">สมัครเรียนออนไลน์</a>
+          <a href="contact.html" class="btn btn-secondary">ติดต่อฝ่ายแนะแนว</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <!-- โหลดข้อมูล -->
+  <script src="data/site.js"></script>
+  <script src="data/programs.js"></script>
+  <script src="data/links.js"></script>
+  <script src="js/layout.js"></script>
+
+  <script>
+    (function() {
+      var container = document.getElementById('programs-container');
+      var programs = window.MVS_PROGRAMS || [];
+
+      if (container && Array.isArray(programs)) {
+        container.textContent = '';
+        programs.forEach(function(prog) {
+          var a = document.createElement('a');
+          a.className = 'program-row';
+          a.href = 'program.html?id=' + encodeURIComponent(prog.id);
+
+          var colLeft = document.createElement('div');
+          var title = document.createElement('h2');
+          title.className = 'program-row-title';
+          title.textContent = prog.name;
+          var levels = document.createElement('div');
+          levels.className = 'program-row-levels';
+          levels.textContent = prog.levels;
+          colLeft.appendChild(title);
+          colLeft.appendChild(levels);
+
+          var colMid = document.createElement('div');
+          var summary = document.createElement('p');
+          summary.className = 'program-row-summary';
+          summary.textContent = prog.summary;
+          colMid.appendChild(summary);
+
+          var colRight = document.createElement('div');
+          colRight.className = 'program-row-action';
+          colRight.textContent = 'ดูรายละเอียดสาขา';
+
+          a.appendChild(colLeft);
+          a.appendChild(colMid);
+          a.appendChild(colRight);
+
+          container.appendChild(a);
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
